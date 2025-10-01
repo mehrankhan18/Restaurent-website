@@ -1,0 +1,1950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Savory Bites - Fine Dining Experience</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
+    <!-- <link rel="stylesheet" href="./style.css"> -->
+    
+    <style>
+        *{margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #d4af37;
+            --secondary: #1a1a1a;
+            --accent: #8b0000;
+            --light: #f8f8f8;
+            --dark: #333;
+            --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --whatsapp: #25D366;
+        }
+
+        /* Dark mode variables */
+        body.dark-mode {
+            --light: #121212;
+            --dark: #f8f8f8;
+            --secondary: #f8f8f8;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: var(--light);
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Dark Mode Toggle */
+        .dark-mode-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001;
+            background: var(--primary);
+            color: var(--secondary);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+        }
+
+        .dark-mode-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .dark-mode-toggle i {
+            font-size: 1.2rem;
+        }
+
+        /* Header & Navigation */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 20px 0;
+            transition: var(--transition);
+            background: transparent;
+        }
+
+        header.scrolled {
+            background: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        body.dark-mode header.scrolled {
+            background: rgba(18, 18, 18, 0.95);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover:after {
+            width: 100%;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .cart-icon {
+            position: relative;
+            margin-right: 20px;
+            cursor: pointer;
+            color: var(--light);
+            font-size: 20px;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--accent);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .reserve-btn {
+            background: var(--primary);
+            color: var(--secondary);
+            border: none;
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .reserve-btn:hover {
+            background: #e6c04d;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            margin-bottom: 20px;
+            opacity: 0;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0;
+        }
+
+        .hero-btns {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            opacity: 0;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--secondary);
+        }
+
+        .btn-primary:hover {
+            background: #e6c04d;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: var(--secondary);
+            transform: translateY(-3px);
+        }
+
+        .btn-whatsapp {
+            background: var(--whatsapp);
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-whatsapp:hover {
+            background: #128C7E;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
+        }
+
+        /* About Section */
+        .about {
+            padding: 100px 0;
+            background: var(--light);
+            transition: background-color 0.3s ease;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--secondary);
+            margin-bottom: 15px;
+        }
+
+        .section-title p {
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        body.dark-mode .section-title p {
+            color: #aaa;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .about-text h3 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--secondary);
+        }
+
+        .about-text p {
+            margin-bottom: 20px;
+            color: #555;
+        }
+
+        body.dark-mode .about-text p {
+            color: #ccc;
+        }
+
+        .about-image {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .about-image:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Menu Section */
+        .menu {
+            padding: 100px 0;
+            background: var(--light);
+            transition: background-color 0.3s ease;
+        }
+
+        body.dark-mode .menu {
+            background: #1a1a1a;
+        }
+
+        .menu-categories {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .category-btn {
+            background: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        body.dark-mode .category-btn {
+            background: #333;
+            color: #f8f8f8;
+        }
+
+        .category-btn.active, .category-btn:hover {
+            background: var(--primary);
+            color: var(--secondary);
+        }
+
+        .menu-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .menu-item {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: var(--transition);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        body.dark-mode .menu-item {
+            background: #333;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .item-image {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .menu-item:hover .item-image img {
+            transform: scale(1.1);
+        }
+
+        .item-details {
+            padding: 20px;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+
+        .item-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--secondary);
+        }
+
+        .item-price {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        .item-desc {
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        body.dark-mode .item-desc {
+            color: #aaa;
+        }
+
+        .add-to-cart {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            width: 100%;
+        }
+
+        .add-to-cart:hover {
+            background: var(--primary);
+            color: var(--secondary);
+        }
+
+        /* Reservation Section */
+        .reservation {
+            padding: 100px 0;
+            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+        }
+
+        .reservation h2 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .reservation p {
+            max-width: 600px;
+            margin: 0 auto 40px;
+            font-size: 1.1rem;
+        }
+
+        .reservation-form {
+            max-width: 600px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.9);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .form-control:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--primary);
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 100px 0;
+            background: var(--light);
+            transition: background-color 0.3s ease;
+        }
+
+        body.dark-mode .testimonials {
+            background: #1a1a1a;
+        }
+
+        .testimonial-slider {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .testimonial {
+            background: #f8f8f8;
+            padding: 40px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            margin: 0 20px;
+        }
+
+        body.dark-mode .testimonial {
+            background: #333;
+        }
+
+        .testimonial-text {
+            font-size: 1.1rem;
+            font-style: italic;
+            margin-bottom: 20px;
+            color: #555;
+        }
+
+        body.dark-mode .testimonial-text {
+            color: #ccc;
+        }
+
+        .testimonial-author {
+            font-weight: 600;
+            color: var(--secondary);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--secondary);
+            color: white;
+            padding: 80px 0 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        body.dark-mode footer {
+            background: #0a0a0a;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+            padding-left: 5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            color: var(--secondary);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        /* Cart Sidebar */
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 380px;
+            height: 100vh;
+            background: white;
+            box-shadow: -5px 0 30px rgba(0, 0, 0, 0.1);
+            z-index: 1100;
+            transition: var(--transition);
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        body.dark-mode .cart-sidebar {
+            background: #333;
+            color: #f8f8f8;
+        }
+
+        .cart-sidebar.active {
+            right: 0;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        body.dark-mode .cart-header {
+            border-bottom: 1px solid #555;
+        }
+
+        .cart-title {
+            font-size: 1.5rem;
+            color: var(--secondary);
+        }
+
+        .close-cart {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+            transition: var(--transition);
+        }
+
+        body.dark-mode .close-cart {
+            color: #aaa;
+        }
+
+        .close-cart:hover {
+            color: var(--accent);
+        }
+
+        .cart-items {
+            margin-bottom: 30px;
+        }
+
+        .cart-item {
+            display: flex;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        body.dark-mode .cart-item {
+            border-bottom: 1px solid #555;
+        }
+
+        .cart-item-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-right: 15px;
+        }
+
+        .cart-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .cart-item-price {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .cart-item-controls {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .quantity-btn {
+            width: 30px;
+            height: 30px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        body.dark-mode .quantity-btn {
+            background: #555;
+            color: #f8f8f8;
+        }
+
+        .quantity-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .item-quantity {
+            margin: 0 10px;
+            font-weight: 600;
+        }
+
+        .remove-item {
+            margin-left: auto;
+            color: #ff6b6b;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .remove-item:hover {
+            color: var(--accent);
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+        }
+
+        body.dark-mode .cart-total {
+            border-top: 2px solid #555;
+        }
+
+        .checkout-btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .checkout-btn:hover {
+            background: var(--primary);
+            color: var(--secondary);
+        }
+
+        .whatsapp-order-btn {
+            background: var(--whatsapp);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .whatsapp-order-btn:hover {
+            background: #128C7E;
+            transform: translateY(-2px);
+        }
+
+        /* Customer Info Modal */
+        .customer-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1200;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .customer-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            transform: scale(0.7);
+            transition: var(--transition);
+        }
+
+        body.dark-mode .modal-content {
+            background: #333;
+            color: #f8f8f8;
+        }
+
+        .customer-modal.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        body.dark-mode .modal-close {
+            color: #aaa;
+        }
+
+        .modal-title {
+            margin-bottom: 20px;
+            color: var(--secondary);
+        }
+
+        .modal-form .form-group {
+            margin-bottom: 20px;
+        }
+
+        /* Floating particles background */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .menu-items {
+                grid-template-columns: 1fr;
+            }
+            
+            .reservation-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .cart-sidebar {
+                width: 100%;
+                right: -100%;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .dark-mode-toggle {
+                top: 15px;
+                right: 15px;
+                width: 45px;
+                height: 45px;
+            }
+        }
+
+        /* Animation classes */
+        .fade-in {
+            opacity: 1;
+            transform: translateY(30px);
+        }
+
+        .slide-in-left {
+            opacity: 1;
+            transform: translateX(-50px);
+        }
+
+        .slide-in-right {
+            opacity: 1;
+            transform: translateX(50px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Dark Mode Toggle -->
+    <button class="dark-mode-toggle" id="darkModeToggle">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">Happy Spoon</a>
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#reservation">Reservations</a></li>
+                    <li><a href="#testimonials">Testimonials</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <div class="cart-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count">0</span>
+                    </div>
+                    <button class="reserve-btn">Book a Table</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="particles" id="particles-js"></div>
+        <div class="hero-content">
+            <h1>The Art of Dining</h1>
+            <p>Indulge in our carefully crafted menu featuring the finest ingredients and innovative culinary techniques</p>
+            <div class="hero-btns">
+                <a href="#menu" class="btn btn-primary">View Menu</a>
+                <a href="#reservation" class="btn btn-secondary">Make Reservation</a>
+                <a href="#whatsapp-order" class="btn btn-whatsapp">
+                    <i class="fab fa-whatsapp"></i> Order via WhatsApp
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Journey ✨</h2>
+                <p>Discover the passion and dedication behind every dish we serve</p>
+            </div>
+            <div class="about-content">
+                <div class="about-text slide-in-left">
+                    <h3>Since 2005, Happy Spoon has been dedicated to creating unforgettable dining experiences</h3>
+                    <p>Founded with a passion for flavor and a commitment to quality, we blend traditional techniques with modern creativity</p>
+                    <p>Our carefully sourced ingredients and seasonal menus reflect our promise: to craft every dish with care and serve it with passion.</p>
+                    <p>At Happy Spoon, dining is more than a meal — it's a journey of taste and memories.</p>
+                </div>
+                <div class="about-image slide-in-right">
+                    <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80" alt="Restaurant Interior">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section class="menu" id="menu">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Menu</h2>
+                <p>Explore our carefully curated selection of culinary delights</p>
+            </div>
+            <div class="menu-categories">
+                <button class="category-btn active" data-category="all">All</button>
+                <button class="category-btn" data-category="starters">Starters</button>
+                <button class="category-btn" data-category="mains">Main Courses</button>
+                <button class="category-btn" data-category="desserts">Desserts</button>
+                <button class="category-btn" data-category="drinks">Drinks</button>
+            </div>
+            <div class="menu-items">
+                <!-- Menu items will be populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Reservation Section -->
+    <section class="reservation" id="reservation">
+        <div class="container">
+            <div class="section-title">
+                <h2>Make a Reservation</h2>
+                <p>Book your table for an unforgettable dining experience</p>
+            </div>
+            <form class="reservation-form">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Your Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" class="form-control" placeholder="Your Email" required>
+                </div>
+                <div class="form-group">
+                    <input type="tel" class="form-control" placeholder="Your Phone" required>
+                </div>
+                <div class="form-group">
+                    <input type="date" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <input type="time" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <select class="form-control" required>
+                        <option value="" disabled selected>Number of Guests</option>
+                        <option value="1">1 Person</option>
+                        <option value="2">2 People</option>
+                        <option value="3">3 People</option>
+                        <option value="4">4 People</option>
+                        <option value="5">5 People</option>
+                        <option value="6">6 People</option>
+                        <option value="7">7+ People</option>
+                    </select>
+                </div>
+                <div class="form-group full">
+                    <textarea class="form-control" placeholder="Special Requests" rows="4"></textarea>
+                </div>
+                <div class="form-group full">
+                    <button type="submit" class="btn btn-primary">Book Now</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials" id="testimonials">
+        <div class="container">
+            <div class="section-title">
+                <h2>What Our Customers Say</h2>
+                <p>Don't just take our word for it - hear from our satisfied guests</p>
+            </div>
+            <div class="testimonial-slider">
+                <div class="testimonial">
+                    <p class="testimonial-text">"The most incredible dining experience I've had in years. Every dish was a masterpiece, and the service was impeccable. Can't wait to return!"</p>
+                    <p class="testimonial-author">- Mehran khan</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Happy Spoon</h3>
+                    <p>Exquisite dining experience in the heart of the city. We're dedicated to providing unforgettable culinary journeys.</p>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/profile.php?id=61553566554528"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/mehrankhan18522025/"><i class="fab fa-instagram"></i></a>
+                        <a href="https://x.com/MehranK09750533"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.tripadvisor.com/Profile/457mehrank">&#xf262<i class="fab fa-tripadvisor"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#menu">Our Menu</a></li>
+                        <li><a href="#reservation">Reservations</a></li>
+                        <li><a href="#testimonials">Testimonials</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Info</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt"> <a href="https://www.google.com/maps/place/Shaykh+Zayed+Islamic+Centre/@34.0189009,71.476608,17z/data=!3m1!4b1!4m6!3m5!1s0x38d916cd66a5a1c7:0x1f27fd7289f75007!8m2!3d34.0188965!4d71.4791829!16s%2Fg%2F1w453_fj?entry=ttu&g_ep=EgoyMDI1MDkyNC4wIKXMDSoASAFQAw%3D%3D"></i> shaikh zayed islamic center peshawar</li></a>
+                        <li><i class="fas fa-phone"></i> 923285027351</li>
+                       <a href="mehrankhan1852@gmail.com"> <li><i class="fas fa-envelope"></i> mehrankhan1852@gmail.com</li></a>
+                        <li><i class="fas fa-clock"></i> Mon-Sun: 11am - 11pm</li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Order Now</h3>
+                    <p>Order your favorite dishes directly via WhatsApp for quick delivery or pickup.</p>
+                    <a href="https://wa.me/923285027351?text=Hello%2C%20I%20would%20like%20to%20place%20an%20order.%20Can%20you%20please%20share%20the%20menu%3F" 
+                    class="btn btn-whatsapp" 
+                    style="width: 100%; text-align: center;" 
+                    target="_blank">
+                    <i class="fab fa-whatsapp"></i> Order on WhatsApp
+                    </a>
+
+
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Happy Spoon. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar">
+        <div class="cart-header">
+            <h3 class="cart-title">Your Order</h3>
+            <button class="close-cart"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="cart-items">
+            <!-- Cart items will be populated by JavaScript -->
+        </div>
+        <div class="cart-total">
+            <span>Total:</span>
+            <span class="total-amount">$0.00</span>
+        </div>
+        <button class="checkout-btn">Proceed to Checkout</button>
+        <button class="whatsapp-order-btn" id="whatsappOrderBtn">
+            <i class="fab fa-whatsapp"></i> Order via WhatsApp
+        </button>
+    </div>
+
+    <!-- Customer Info Modal -->
+    <div class="customer-modal" id="customerModal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">
+                <i class="fas fa-times"></i>
+            </button>
+            <h3 class="modal-title">Complete Your WhatsApp Order</h3>
+            <form class="modal-form" id="customerForm">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="customerName" placeholder="Your Full Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="tel" class="form-control" id="customerPhone" placeholder="Your WhatsApp Number" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="customerAddress" placeholder="Delivery Address (if delivery)">
+                </div>
+                <div class="form-group">
+                    <select class="form-control" id="orderType" required>
+                        <option value="" disabled selected>Order Type</option>
+                        <option value="delivery">Delivery</option>
+                        <option value="pickup">Pickup</option>
+                        <option value="dinein">Dine-in</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <textarea class="form-control" id="specialInstructions" placeholder="Special Instructions" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-whatsapp" style="width: 100%;">
+                    <i class="fab fa-whatsapp"></i> Send Order via WhatsApp
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Dark Mode Functionality
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const body = document.body;
+        const darkModeIcon = darkModeToggle.querySelector('i');
+
+        // Check for saved dark mode preference
+        const isDarkMode = localStorage.getItem('darkMode') === 'true';
+        
+        // Apply dark mode if previously enabled
+        if (isDarkMode) {
+            body.classList.add('dark-mode');
+            darkModeIcon.classList.remove('fa-moon');
+            darkModeIcon.classList.add('fa-sun');
+        }
+
+        // Toggle dark mode
+        darkModeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            
+            // Update icon
+            if (body.classList.contains('dark-mode')) {
+                darkModeIcon.classList.remove('fa-moon');
+                darkModeIcon.classList.add('fa-sun');
+                localStorage.setItem('darkMode', 'true');
+            } else {
+                darkModeIcon.classList.remove('fa-sun');
+                darkModeIcon.classList.add('fa-moon');
+                localStorage.setItem('darkMode', 'false');
+            }
+        });
+
+        // Menu Data
+        const menuItems = [
+            {
+                id: 1,
+                name: "Truffle Arancini",
+                category: "starters",
+                price: 14,
+                description: "Crispy risotto balls with black truffle and mozzarella",
+                image: "https://images.unsplash.com/photo-1563379926898-05f4575a45d8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+            },
+            {
+                id: 2,
+                name: "Beef Carpaccio",
+                category: "starters",
+                price: 16,
+                description: "Thinly sliced beef with arugula, capers and parmesan",
+                image: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80"
+            },
+            {
+                id: 3,
+                name: "Grilled Octopus",
+                category: "starters",
+                price: 18,
+                description: "Tender octopus with smoked paprika and lemon oil",
+                image: "https://images.unsplash.com/photo-1598515219759-9ee58ce98d8e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+            },
+            {
+                id: 4,
+                name: "Herb Crusted Lamb",
+                category: "mains",
+                price: 36,
+                description: "Rack of lamb with herb crust and red wine reduction",
+                image: "https://images.unsplash.com/photo-1589302168068-964664d93dc0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80"
+            },
+            {
+                id: 5,
+                name: "Seafood Linguine",
+                category: "mains",
+                price: 28,
+                description: "Fresh pasta with clams, shrimp, and scallops in white wine sauce",
+                image: "https://images.unsplash.com/photo-1621996346565-e3dbc353d2e5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1480&q=80"
+            },
+            {
+                id: 6,
+                name: "Duck Confit",
+                category: "mains",
+                price: 32,
+                description: "Slow-cooked duck leg with roasted potatoes and cherry gastrique",
+                image: "https://images.unsplash.com/photo-1594041680534-e8c8cdebd659?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+            },
+            {
+                id: 7,
+                name: "Chocolate Soufflé",
+                category: "desserts",
+                price: 12,
+                description: "Warm chocolate soufflé with vanilla bean ice cream",
+                image: "https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80"
+            },
+            {
+                id: 8,
+                name: "Tiramisu",
+                category: "desserts",
+                price: 10,
+                description: "Classic Italian dessert with espresso-soaked ladyfingers",
+                image: "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+            },
+            {
+                id: 9,
+                name: "Berry Pavlova",
+                category: "desserts",
+                price: 11,
+                description: "Crisp meringue with whipped cream and fresh berries",
+                image: "https://images.unsplash.com/photo-1488477181946-6428a0291777?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80"
+            },
+            {
+                id: 10,
+                name: "Craft Cocktails",
+                category: "drinks",
+                price: 14,
+                description: "Selection of signature cocktails made with premium spirits",
+                image: "https://images.unsplash.com/photo-1536935338788-846bb9981813?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80"
+            },
+            {
+                id: 11,
+                name: "Wine Selection",
+                category: "drinks",
+                price: 12,
+                description: "Curated wines from around the world",
+                image: "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+            },
+            {
+                id: 12,
+                name: "Artisan Coffee",
+                category: "drinks",
+                price: 6,
+                description: "Specialty coffee drinks and espresso",
+                image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+            }
+        ];
+
+        // WhatsApp Configuration - YOUR NUMBER IS ALREADY ADDED!
+        const WHATSAPP_NUMBER = "923285027351"; // Your WhatsApp number with country code
+        const RESTAURANT_NAME = "Savory Bites";
+
+        // Cart functionality
+        let cart = [];
+        const cartIcon = document.querySelector('.cart-icon');
+        const cartSidebar = document.querySelector('.cart-sidebar');
+        const closeCart = document.querySelector('.close-cart');
+        const cartItemsContainer = document.querySelector('.cart-items');
+        const cartCount = document.querySelector('.cart-count');
+        const totalAmount = document.querySelector('.total-amount');
+        const checkoutBtn = document.querySelector('.checkout-btn');
+        const whatsappOrderBtn = document.getElementById('whatsappOrderBtn');
+        const customerModal = document.getElementById('customerModal');
+        const modalClose = document.getElementById('modalClose');
+        const customerForm = document.getElementById('customerForm');
+
+        // Initialize the website
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeMenu();
+            initializeAnimations();
+            initializeEventListeners();
+        });
+
+        // Initialize menu
+        function initializeMenu() {
+            const menuContainer = document.querySelector('.menu-items');
+            menuContainer.innerHTML = '';
+            
+            menuItems.forEach(item => {
+                const menuItemElement = document.createElement('div');
+                menuItemElement.className = `menu-item`;
+                menuItemElement.setAttribute('data-category', item.category);
+                menuItemElement.innerHTML = `
+                    <div class="item-image">
+                        <img src="${item.image}" alt="${item.name}" onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1480&q=80'">
+                    </div>
+                    <div class="item-details">
+                        <div class="item-header">
+                            <h3 class="item-name">${item.name}</h3>
+                            <span class="item-price">$${item.price}</span>
+                        </div>
+                        <p class="item-desc">${item.description}</p>
+                        <button class="add-to-cart" data-id="${item.id}">Add to Cart</button>
+                    </div>
+                `;
+                menuContainer.appendChild(menuItemElement);
+            });
+            
+            // Add animation to menu items
+            animateMenuItems();
+        }
+
+        // Animate menu items with GSAP
+        function animateMenuItems() {
+            gsap.fromTo('.menu-item', 
+                {
+                    opacity: 0,
+                    y: 50,
+                    scale: 0.8
+                },
+                {
+                    duration: 0.8,
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                    stagger: 0.1,
+                    ease: "back.out(1.7)",
+                    scrollTrigger: {
+                        trigger: '.menu',
+                        start: 'top 80%',
+                        end: 'bottom 20%',
+                        toggleActions: 'play none none reverse'
+                    }
+                }
+            );
+        }
+
+        // Initialize animations
+        function initializeAnimations() {
+            // Register ScrollTrigger plugin
+            gsap.registerPlugin(ScrollTrigger);
+            
+            // Header scroll effect
+            window.addEventListener('scroll', function() {
+                const header = document.querySelector('header');
+                if (window.scrollY > 100) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+            
+            // Hero animation with more GSAP effects
+            const heroTimeline = gsap.timeline();
+            heroTimeline
+                .fromTo('.hero h1', 
+                    { opacity: 0, y: 100, rotationX: 90 },
+                    { duration: 1.2, opacity: 1, y: 0, rotationX: 0, ease: "power3.out" }
+                )
+                .fromTo('.hero p', 
+                    { opacity: 0, y: 50, scale: 0.9 },
+                    { duration: 1, opacity: 1, y: 0, scale: 1, ease: "back.out(1.7)" }, 
+                    "-=0.5"
+                )
+                .fromTo('.hero-btns', 
+                    { opacity: 0, y: 30 },
+                    { duration: 0.8, opacity: 1, y: 0, stagger: 0.2, ease: "power2.out" }, 
+                    "-=0.3"
+                );
+
+            // About section animation with enhanced effects
+            gsap.from('.slide-in-left', {
+                scrollTrigger: {
+                    trigger: '.about',
+                    start: 'top 80%',
+                    end: 'bottom 20%',
+                    toggleActions: 'play none none reverse'
+                },
+                x: -100,
+                opacity: 0,
+                duration: 1,
+                stagger: 0.2,
+                ease: "power2.out"
+            });
+            
+            gsap.from('.slide-in-right', {
+                scrollTrigger: {
+                    trigger: '.about',
+                    start: 'top 80%',
+                    end: 'bottom 20%',
+                    toggleActions: 'play none none reverse'
+                },
+                x: 100,
+                opacity: 0,
+                duration: 1,
+                delay: 0.3,
+                ease: "power2.out"
+            });
+        }
+
+        // Initialize event listeners
+        function initializeEventListeners() {
+            // Menu category filtering
+            const categoryBtns = document.querySelectorAll('.category-btn');
+            categoryBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    categoryBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    const category = this.getAttribute('data-category');
+                    filterMenu(category);
+                });
+            });
+            
+            // Add to cart buttons
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('add-to-cart')) {
+                    const itemId = parseInt(e.target.getAttribute('data-id'));
+                    addToCart(itemId);
+                    
+                    gsap.fromTo(e.target, 
+                        { scale: 1, backgroundColor: "#1a1a1a" },
+                        { 
+                            scale: 1.2, 
+                            backgroundColor: "#d4af37", 
+                            duration: 0.3, 
+                            yoyo: true, 
+                            repeat: 1,
+                            ease: "power2.inOut"
+                        }
+                    );
+                }
+            });
+            
+            // Cart functionality
+            cartIcon.addEventListener('click', toggleCart);
+            closeCart.addEventListener('click', toggleCart);
+            
+            // Checkout button
+            checkoutBtn.addEventListener('click', function() {
+                if (cart.length === 0) {
+                    gsap.fromTo('.cart-sidebar',
+                        { x: 0 },
+                        { 
+                            x: 10, 
+                            duration: 0.1, 
+                            repeat: 3, 
+                            yoyo: true, 
+                            ease: "power1.inOut",
+                            onComplete: () => alert('Your cart is empty!')
+                        }
+                    );
+                    return;
+                }
+                
+                gsap.to('.checkout-btn', {
+                    scale: 0.9,
+                    duration: 0.2,
+                    yoyo: true,
+                    repeat: 1,
+                    ease: "power2.inOut",
+                    onComplete: () => {
+                        alert('Thank you for your order! We will prepare your food shortly.');
+                        cart = [];
+                        updateCart();
+                        toggleCart();
+                    }
+                });
+            });
+            
+            // WhatsApp Order Button
+            whatsappOrderBtn.addEventListener('click', function() {
+                if (cart.length === 0) {
+                    alert('Your cart is empty! Please add some items first.');
+                    return;
+                }
+                openCustomerModal();
+            });
+            
+            // Modal functionality
+            modalClose.addEventListener('click', closeCustomerModal);
+            customerModal.addEventListener('click', function(e) {
+                if (e.target === customerModal) {
+                    closeCustomerModal();
+                }
+            });
+            
+            // Customer form submission
+            customerForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                sendWhatsAppOrder();
+            });
+            
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        gsap.to(window, {
+                            duration: 1.5,
+                            scrollTo: {
+                                y: target,
+                                offsetY: 80
+                            },
+                            ease: "power2.inOut"
+                        });
+                    }
+                });
+            });
+            
+            // Reserve button
+            document.querySelector('.reserve-btn').addEventListener('click', function() {
+                gsap.to(window, {
+                    duration: 1.5,
+                    scrollTo: {
+                        y: '#reservation',
+                        offsetY: 80
+                    },
+                    ease: "power2.inOut"
+                });
+            });
+
+            // Form submission
+            document.querySelector('.reservation-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                gsap.to('.reservation-form button', {
+                    scale: 0.95,
+                    duration: 0.2,
+                    yoyo: true,
+                    repeat: 1,
+                    ease: "power2.inOut",
+                    onComplete: () => {
+                        alert('Thank you for your reservation! We will confirm shortly.');
+                        this.reset();
+                    }
+                });
+            });
+        }
+
+        // Filter menu by category
+        function filterMenu(category) {
+            const menuItems = document.querySelectorAll('.menu-item');
+            let visibleItems = 0;
+            
+            menuItems.forEach((item, index) => {
+                const itemCategory = item.getAttribute('data-category');
+                
+                if (category === 'all' || itemCategory === category) {
+                    gsap.to(item, {
+                        duration: 0.6,
+                        opacity: 1,
+                        scale: 1,
+                        y: 0,
+                        rotation: 0,
+                        display: 'block',
+                        delay: visibleItems * 0.1,
+                        ease: "back.out(1.5)"
+                    });
+                    visibleItems++;
+                } else {
+                    gsap.to(item, {
+                        duration: 0.4,
+                        opacity: 0,
+                        scale: 0.8,
+                        y: 20,
+                        rotation: -5,
+                        display: 'none',
+                        ease: "power2.in"
+                    });
+                }
+            });
+        }
+
+        // Add item to cart
+        function addToCart(itemId) {
+            const item = menuItems.find(i => i.id === itemId);
+            const existingItem = cart.find(i => i.id === itemId);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    ...item,
+                    quantity: 1
+                });
+            }
+            
+            updateCart();
+            
+            gsap.to('.cart-icon', {
+                duration: 0.3,
+                scale: 1.5,
+                rotation: 15,
+                yoyo: true,
+                repeat: 1,
+                ease: "elastic.out(1, 0.5)"
+            });
+        }
+
+        // Update cart UI
+        function updateCart() {
+            cartItemsContainer.innerHTML = '';
+            let total = 0;
+            let count = 0;
+            
+            cart.forEach(item => {
+                const cartItemElement = document.createElement('div');
+                cartItemElement.className = 'cart-item';
+                cartItemElement.innerHTML = `
+                    <div class="cart-item-image">
+                        <img src="${item.image}" alt="${item.name}" onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1480&q=80'">
+                    </div>
+                    <div class="cart-item-details">
+                        <div class="cart-item-name">${item.name}</div>
+                        <div class="cart-item-price">$${item.price}</div>
+                        <div class="cart-item-controls">
+                            <button class="quantity-btn decrease" data-id="${item.id}">-</button>
+                            <span class="item-quantity">${item.quantity}</span>
+                            <button class="quantity-btn increase" data-id="${item.id}">+</button>
+                            <button class="remove-item" data-id="${item.id}"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                `;
+                cartItemsContainer.appendChild(cartItemElement);
+                
+                total += item.price * item.quantity;
+                count += item.quantity;
+            });
+            
+            cartCount.textContent = count;
+            totalAmount.textContent = `$${total.toFixed(2)}`;
+            
+            // Add event listeners to cart controls
+            document.querySelectorAll('.decrease').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = parseInt(this.getAttribute('data-id'));
+                    decreaseQuantity(id);
+                });
+            });
+            
+            document.querySelectorAll('.increase').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = parseInt(this.getAttribute('data-id'));
+                    increaseQuantity(id);
+                });
+            });
+            
+            document.querySelectorAll('.remove-item').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = parseInt(this.getAttribute('data-id'));
+                    removeFromCart(id);
+                });
+            });
+        }
+
+        // Increase item quantity
+        function increaseQuantity(itemId) {
+            const item = cart.find(i => i.id === itemId);
+            if (item) {
+                item.quantity += 1;
+                updateCart();
+            }
+        }
+
+        // Decrease item quantity
+        function decreaseQuantity(itemId) {
+            const item = cart.find(i => i.id === itemId);
+            if (item) {
+                item.quantity -= 1;
+                if (item.quantity === 0) {
+                    removeFromCart(itemId);
+                } else {
+                    updateCart();
+                }
+            }
+        }
+
+        // Remove item from cart
+        function removeFromCart(itemId) {
+            cart = cart.filter(i => i.id !== itemId);
+            updateCart();
+        }
+
+        // Toggle cart sidebar
+        function toggleCart() {
+            if (cartSidebar.classList.contains('active')) {
+                gsap.to(cartSidebar, {
+                    duration: 0.6,
+                    right: -400,
+                    ease: "power2.in",
+                    onComplete: () => cartSidebar.classList.remove('active')
+                });
+            } else {
+                cartSidebar.classList.add('active');
+                gsap.fromTo(cartSidebar, 
+                    { right: -400, opacity: 0 },
+                    { 
+                        duration: 0.6, 
+                        right: 0, 
+                        opacity: 1,
+                        ease: "power2.out"
+                    }
+                );
+            }
+        }
+
+        // Open customer modal
+        function openCustomerModal() {
+            customerModal.classList.add('active');
+            gsap.fromTo('.modal-content', 
+                { scale: 0.7, opacity: 0 },
+                { 
+                    duration: 0.5, 
+                    scale: 1, 
+                    opacity: 1,
+                    ease: "back.out(1.7)"
+                }
+            );
+        }
+
+        // Close customer modal
+        function closeCustomerModal() {
+            gsap.to('.modal-content', {
+                duration: 0.3,
+                scale: 0.7,
+                opacity: 0,
+                ease: "power2.in",
+                onComplete: () => customerModal.classList.remove('active')
+            });
+        }
+
+        // Send order via WhatsApp
+        function sendWhatsAppOrder() {
+            const customerName = document.getElementById('customerName').value;
+            const customerPhone = document.getElementById('customerPhone').value;
+            const customerAddress = document.getElementById('customerAddress').value;
+            const orderType = document.getElementById('orderType').value;
+            const specialInstructions = document.getElementById('specialInstructions').value;
+
+            // Validate form
+            if (!customerName || !customerPhone || !orderType) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+
+            // Format order details
+            let orderMessage = `*NEW ORDER - ${RESTAURANT_NAME}*\n\n`;
+            orderMessage += `*Customer Information:*\n`;
+            orderMessage += `Name: ${customerName}\n`;
+            orderMessage += `Phone: ${customerPhone}\n`;
+            orderMessage += `Order Type: ${orderType.toUpperCase()}\n`;
+            
+            if (customerAddress && orderType === 'delivery') {
+                orderMessage += `Delivery Address: ${customerAddress}\n`;
+            }
+            
+            if (specialInstructions) {
+                orderMessage += `Special Instructions: ${specialInstructions}\n`;
+            }
+            
+            orderMessage += `\n*Order Details:*\n`;
+            
+            let total = 0;
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                orderMessage += `• ${item.name} x${item.quantity} - $${itemTotal.toFixed(2)}\n`;
+                total += itemTotal;
+            });
+            
+            orderMessage += `\n*Total: $${total.toFixed(2)}*\n\n`;
+            orderMessage += `Thank you! 🍽️`;
+
+            // Encode message for URL
+            const encodedMessage = encodeURIComponent(orderMessage);
+            
+            // Create WhatsApp URL
+            const whatsappURL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
+            
+            // Open WhatsApp in new tab
+            window.open(whatsappURL, '_blank');
+            
+            // Close modal and reset cart
+            closeCustomerModal();
+            cart = [];
+            updateCart();
+            toggleCart();
+            
+            // Show success message
+            alert('Your order has been sent via WhatsApp! We will contact you shortly to confirm.');
+        }
+
+        // Simple particle effect for hero section
+        function initParticles() {
+            const particlesContainer = document.getElementById('particles-js');
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.style.position = 'absolute';
+                particle.style.width = Math.random() * 3 + 1 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.background = 'rgba(255, 255, 255, ' + (Math.random() * 0.5 + 0.2) + ')';
+                particle.style.borderRadius = '50%';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particlesContainer.appendChild(particle);
+                
+                gsap.to(particle, {
+                    duration: Math.random() * 10 + 5,
+                    x: Math.random() * 100 - 50,
+                    y: Math.random() * 100 - 50,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut"
+                });
+            }
+        }
+        
+        // Initialize particles when page loads
+        window.addEventListener('load', initParticles);
+    </script>
+</body>
+</html>
